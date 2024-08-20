@@ -259,6 +259,7 @@ clutter_context_new (ClutterBackendConstructor   backend_constructor,
                      GError                    **error)
 {
   ClutterContext *context;
+  ClutterBackend *backend;
   ClutterContextPrivate *priv;
 
   context = g_object_new (CLUTTER_TYPE_CONTEXT, NULL);
@@ -267,7 +268,10 @@ clutter_context_new (ClutterBackendConstructor   backend_constructor,
   init_clutter_debug (context);
   context->show_fps = clutter_show_fps;
 
-  context->backend = backend_constructor (user_data);
+  backend = backend_constructor (user_data);
+  /*Keep a back pointer */
+  backend->context = context;
+  context->backend = backend;
   context->settings = clutter_settings_get_default ();
   _clutter_settings_set_backend (context->settings,
                                  context->backend);
