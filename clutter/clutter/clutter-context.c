@@ -98,6 +98,7 @@ clutter_context_dispose (GObject *object)
   g_clear_pointer (&context->events_queue, g_async_queue_unref);
   g_clear_pointer (&context->backend, clutter_backend_destroy);
   g_clear_object (&context->stage_manager);
+  g_clear_object (&context->settings);
 
   G_OBJECT_CLASS (clutter_context_parent_class)->dispose (object);
 }
@@ -272,7 +273,7 @@ clutter_context_new (ClutterBackendConstructor   backend_constructor,
   /*Keep a back pointer */
   backend->context = context;
   context->backend = backend;
-  context->settings = clutter_settings_get_default ();
+  context->settings = g_object_new (CLUTTER_TYPE_SETTINGS, NULL);
   _clutter_settings_set_backend (context->settings,
                                  context->backend);
 
