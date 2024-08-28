@@ -409,10 +409,6 @@ handle_host_xevent (MetaBackend *backend,
                   layout_group_changed =
                     (int) priv->keymap_layout_group != layout_group;
                   priv->keymap_layout_group = layout_group;
-
-                  if (layout_group_changed)
-                    meta_backend_notify_keymap_layout_group_changed (backend,
-                                                                     layout_group);
                 }
               break;
             default:
